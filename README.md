@@ -39,4 +39,5 @@ UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol
 %zabbix ALL=(SIDADM) NOPASSWD:/bin/csh -c <SAP_lib_addr>/sapcontrol -nr 00 -function ParameterValue*
 %zabbix ALL=(SIDADM) NOPASSWD:/bin/csh -c <SAP_lib_addr>/msprot*
 ```
-Стоит учесть, что адреса саповских библиотек зависят от версии ядра, для уточнения - обратиться к ответственному администратору.
+Стоит учесть, что адреса саповских библиотек зависят от версии ядра, для уточнения - обратиться к ответственному администратору.<br>
+Таким образом, хост сконфигурирован и готов к мониторингу.
