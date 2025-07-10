@@ -80,13 +80,13 @@ II.I) Подпункт - все макросы необходимо инициа
    ![image](https://github.com/user-attachments/assets/4770a1bc-bf70-4bb6-8b2f-0f8d909a08d2)<br>
    ![image](https://github.com/user-attachments/assets/61f9c3be-b329-434d-bf88-807e790a6d4f)<br>
    Препроцессинг позволяет извлечь из строки JSON нужные значения.<br>
-   ABAPWP - `$.[?(@.TYP=='{#TYP}' && @.STATUS=='{#STATUS}')].NUMBER.first()`
+   ABAPWP - `$.[?(@.TYP=='{#TYP}' && @.STATUS=='{#STATUS}')].NUMBER.first()`<br>
+   ProcessList - `$.[?(@.DESCRIPTION=='{#DESCRIPTION}')].DISPSTATUS.first()`<br>
+   QueueStatistics - `$.[?(@.TYP=='{#TYP}')].HIGH.first()` - MaxQueue; `$.[?(@.TYP=='{#TYP}')].NOW.first()` - CurrentQueue<br>
+   После всей настройки - созданы lld метрики. Теперь последний шаг - создание триггеров.<br>
+
+   3.4) Создание триггеров;<br>
    
-
-
-
-
-
 
 
 
