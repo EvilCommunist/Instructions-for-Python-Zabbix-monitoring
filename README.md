@@ -34,7 +34,7 @@ UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol
 UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 msprot -un $3
 ```
 После изменения конфигурации надо перезагрузить агента: `sudo systemctl restart zabbix-agent`<br>
-   2.2) Настроить файл sudoers на хосте;<br>
+   2.2) Настроить файл sudoers на хосте.<br>
 Последний шаг настройки - изменение файла sudoers, для избежания передачи пароля через сервер zabbix.
 ```
 ### For SAP ###
@@ -84,9 +84,22 @@ II.I) Подпункт - все макросы необходимо инициа
    ProcessList - `$.[?(@.DESCRIPTION=='{#DESCRIPTION}')].DISPSTATUS.first()`<br>
    QueueStatistics - `$.[?(@.TYP=='{#TYP}')].HIGH.first()` - MaxQueue; `$.[?(@.TYP=='{#TYP}')].NOW.first()` - CurrentQueue<br>
    После всей настройки - созданы lld метрики. Теперь последний шаг - создание триггеров.<br>
+   3.4) Создание триггеров.<br>
+   <img width="921" height="107" alt="image" src="https://github.com/user-attachments/assets/70b6d495-df98-4e0b-81f0-a2a006e98d76" /><br>
+   <img width="1678" height="581" alt="image" src="https://github.com/user-attachments/assets/c7d0ecbb-7879-4b49-8069-0370127e9fba" /><br>
+   Триггер для sapstar - `last(/Temp_1july/HW_pvalue[{$SID},{$NR},{$SIDADM},login/no_automatic_user_sapstar],#1)=0`;<br>
+   Триггер для hardware key - `last(/Temp_1july/HW_key[{$SID},{$NR},{$SIDADM}],#1) <> last(/Temp_1july/HW_key[{$SID},{$NR},{$SIDADM}],#2)`;<br>
+   Также триггеры необходимо настроить в lld:<br>
+   <img width="1027" height="186" alt="image" src="https://github.com/user-attachments/assets/cd1dd8b9-8ab7-4917-91e2-0f982b922ec8" /><br>
+   <img width="1605" height="534" alt="image" src="https://github.com/user-attachments/assets/8289b7f5-44b4-4253-8fbc-2ef01f8c819c" /><br>
+   Триггер-прототип для ProcessList - `last(/Temp_1july/HW_status[{#DESCRIPTION}],#3)<>"GREEN" and last(/Temp_1july/HW_status[{#DESCRIPTION}],#1)<>"GREEN"`;<br>
+   Триггер-прототип для ABAPWP - `nodata(/Temp_1july/HW_number[{#TYP},{#STATUS}],120)=1 and {#STATUS} = "Wait" and nodata(/Temp_1july/HW_abap_wp[{$SID},{$NR},{$SIDADM}],120)=0`;<br>
+   Триггер-прототип для QueueStatistics - `last(/Temp_1july/HW_length[{#TYP}],#1) > {$SAP_DIA_WAITING_QUEUE} and {#TYP} = "ABAP/DIA"`; *Макросы для waiting queue надо прописать в шаблоне<br>
 
-   3.4) Создание триггеров;<br>
-   
+Таким образом, система поставлена на мониторинг.
+
+
+
 
 
 
