@@ -28,6 +28,10 @@ UserParameter=abap_wp[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol 
 UserParameter=queuelist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f GetQueueStatistic -un $3
 #To monitor ABAP instance service status
 UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f GetProcessList -un $3
+#To monitor ABAP system parameters
+UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f ParameterValue -p $3 -un $4
+#To monitor hardware key
+UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 msprot -un $3
 ```
 После изменения конфигурации надо перезагрузить агента: `sudo systemctl restart zabbix-agent`<br>
    2.2) Настроить файл sudoers на хосте;<br>
