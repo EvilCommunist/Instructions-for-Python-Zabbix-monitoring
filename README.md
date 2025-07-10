@@ -61,5 +61,32 @@ II. Для унификации шаблона все данные будут п
 II.I) Подпункт - все макросы необходимо инициализировать в шаблоне:<br>
 ![image](https://github.com/user-attachments/assets/c1075169-6b76-4a80-9eb2-ed72526d75e6)<br>
 <strong><i>ВАЖНО:</i></strong> значения, получаемые из `UserParameter` и `msprot` являются конечными значениями и их можно сразу же поставить на мониторинг, в то время как остальные три команды выдают в качестве результата JSON-значение, содержащее значимую информацию. Таким образом, для `ABAPGetWPTable`; `GetPocessList`; `GetQueueStatistics` необходимо провести извлченеие информации из полученного JSON-а. Для этого необходимо использовать low-level disovery.
+   3.3) Создание low-level discovery;<br>
+   lld должны создаваться согласно виду возвращаемых данных:<br>
+   <ul>
+   <li>GetQueueStatistics: {"TYP": "ABAP/NOWP", "NOW": "0", "HIGH": "13"}</li>
+   <li>GetProcessList: {"DESCRIPTION": "Dispatcher", "DISPSTATUS": "GREEN"}</li>
+   <li>ABAPGetWPTable: {"TYP": "DIA", "STATUS": "Wait", "NUMBER": 10}</li>
+   </ul>
+   
+   На шаблоне надо нажать на `Discovery`, а затем - `Create discovery rule`.<br>
+   ![image](https://github.com/user-attachments/assets/3792f398-5f04-4886-a476-5ccea2758ff1)<br>
+   ![image](https://github.com/user-attachments/assets/45a22ec2-0ab0-4ade-9f26-8ee5b5b24db0)<br>
+   Далее настройка:<br>
+   ![image](https://github.com/user-attachments/assets/ccbe7144-077f-4752-86da-a7192af68a36)<br>
+   ![image](https://github.com/user-attachments/assets/2176ad6b-b7d9-4822-ac56-59f60ffcdefa)<br>
+   И создание прототипа айтема для работы внутри lld:<br>
+   ![image](https://github.com/user-attachments/assets/e96bfbb8-b727-4b44-853b-70567130d81d)<br>
+   ![image](https://github.com/user-attachments/assets/4770a1bc-bf70-4bb6-8b2f-0f8d909a08d2)<br>
+   ![image](https://github.com/user-attachments/assets/61f9c3be-b329-434d-bf88-807e790a6d4f)<br>
+   Препроцессинг позволяет извлечь из строки JSON нужные значения.<br>
+   ABAPWP - `$.[?(@.TYP=='{#TYP}' && @.STATUS=='{#STATUS}')].NUMBER.first()`
+   
+
+
+
+
+
+
 
 
