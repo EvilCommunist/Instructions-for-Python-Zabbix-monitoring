@@ -22,16 +22,16 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf  # Здесь происходит п
 ```conf
 ####UserParameters for monitoring of SAP instance via OS utilities
 ##################################################################
-#To monitor ABAP process status
-UserParameter=abap_wp[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f ABAPGetWPTable -un $3
-#To monitor ABAP process queues fill level
-UserParameter=queuelist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f GetQueueStatistic -un $3
-#To monitor ABAP instance service status
-UserParameter=proclist[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f GetProcessList -un $3
-#To monitor ABAP system parameters
-UserParameter=pvalue[*],python3 .../zabbix_agentd.d/script.py $1 $2 sapcontrol -f ParameterValue -p $3 -un $4
-#To monitor hardware key
-UserParameter=hw_key[*],python3 .../zabbix_agentd.d/script.py $1 $2 msprot -un $3
+# ABAPWPTable
+UserParameter=abap_wp[*],python3 <prefix>/zabbix_agentd/system_monitor.py "$1" "$2" sapcontrol -f ABAPGetWPTable -un "$3"
+#ProcList
+UserParameter=proclist[*],python3 <prefix>/zabbix_agentd/system_monitor.py "$1" "$2" sapcontrol -f GetProcessList -un "$3"
+#QueueStat
+UserParameter=queuelist[*],python3 <prefix>/zabbix_agentd/system_monitor.py "$1" "$2" sapcontrol -f GetQueueStatistic -un "$3"
+#ParameterValue
+UserParameter=pvalue[*],python3 <prefix>/zabbix_agentd/system_monitor.py "$1" "$2" sapcontrol -f ParameterValue -p "$4" -un "$3"
+#HardwareKey
+UserParameter=HW_key[*],python3 <prefix>/zabbix_agentd/system_monitor.py "$1" "$2" msprot -un "$3"
 ```
 После изменения конфигурации надо перезагрузить агента: `sudo systemctl restart zabbix-agent`<br>
    2.2) Настроить файл sudoers на хосте.<br>
